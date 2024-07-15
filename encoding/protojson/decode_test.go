@@ -2456,13 +2456,13 @@ func TestUnmarshal(t *testing.T) {
 		desc:         "Object missing value: no DiscardUnknown",
 		inputMessage: &testpb.TestAllTypes{},
 		inputText:    `{"":}`,
-		umo:          protojson.UnmarshalOptions{RecursionLimit: 5, DiscardUnknown: false},
+		umo:          protojson.UnmarshalOptions{DiscardUnknown: false},
 		wantErr:      `(line 1:2): unknown field ""`,
 	}, {
 		desc:         "Object missing value: DiscardUnknown",
 		inputMessage: &testpb.TestAllTypes{},
 		inputText:    `{"":}`,
-		umo:          protojson.UnmarshalOptions{RecursionLimit: 5, DiscardUnknown: true},
+		umo:          protojson.UnmarshalOptions{DiscardUnknown: true},
 		wantErr:      `(line 1:5): unexpected token`,
 	}, {
 		desc:         "Object missing value: Any",
