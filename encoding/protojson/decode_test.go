@@ -2452,6 +2452,23 @@ func TestUnmarshal(t *testing.T) {
 		inputText:    `{"weak_message1":{"a":1}, "weak_message2":{"a":1}}`,
 		wantErr:      `unknown field "weak_message2"`, // weak_message2 is unknown since the package containing it is not imported
 		skip:         !flags.ProtoLegacy,
+	}, {
+		desc:         "Object missing value: no DiscardUnknown",
+		inputMessage: &testpb.TestAllTypes{},
+		inputText:    `{"":}`,
+		umo:          protojson.UnmarshalOptions{RecursionLimit: 5, DiscardUnknown: false},
+		wantErr:      `(line 1:2): unknown field ""`,
+	}, {
+		desc:         "Object missing value: DiscardUnknown",
+		inputMessage: &testpb.TestAllTypes{},
+		inputText:    `{"":}`,
+		umo:          protojson.UnmarshalOptions{RecursionLimit: 5, DiscardUnknown: true},
+		wantErr:      `(line 1:5): unexpected token`,
+	}, {
+		desc:         "Object missing value: Any",
+		inputMessage: &anypb.Any{},
+		inputText:    `{"":}`,
+		wantErr:      `(line 1:5): unexpected token`,
 	}}
 
 	for _, tt := range tests {

@@ -348,6 +348,10 @@ func (d decoder) skipJSONValue() error {
 				}
 			}
 		}
+	case json.EOF:
+		// This can only happen if there's a bug in Decoder.Read.
+		// Avoid an infinite loop if this does happen.
+		return errors.New("unexpected EOF")
 	}
 	return nil
 }
