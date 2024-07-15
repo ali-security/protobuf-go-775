@@ -48,6 +48,8 @@ fi
 if ! [[ -z $MIN_VERSION ]]; then
 	sed $INPLACE -e "s/\(MinVersion *= *\)[0-9]*/\1$MIN_VERSION/" runtime/protoimpl/version.go
 fi
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
 git commit -a -m "all: release $(version_string)"
 
 # Build release binaries.
